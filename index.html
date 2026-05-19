@@ -19,7 +19,13 @@
             color: var(--white);
             background-image: url('https://www.transparenttextures.com/patterns/circuit-board.png');
             min-height: 100vh;
+            display: flex;
+            flex-direction: column;
             overflow-x: hidden;
+        }
+
+        main {
+            flex: 1;
         }
 
         /* --- HEADER Y LOGO ANIMADO --- */
@@ -74,20 +80,56 @@
             background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(8px);
             border: 1px solid rgba(0, 229, 255, 0.1); border-radius: 12px;
             padding: 20px; text-align: center; cursor: pointer; transition: 0.3s;
+            display: flex; flex-direction: column; justify-content: space-between;
         }
         .product-card:hover { border-color: var(--kernel-cyan); transform: scale(1.02); }
-        .product-card img { width: 100%; border-radius: 8px; margin-bottom: 10px; }
+        
+        /* Contenedor estandarizado para imágenes en el catálogo */
+        .product-card .img-container {
+            width: 100%;
+            height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 10px;
+            overflow: hidden;
+        }
+        .product-card img { 
+            max-width: 100%; 
+            max-height: 100%; 
+            object-fit: contain; 
+            border-radius: 8px; 
+        }
 
         /* --- DETALLE PRODUCTO (ESTILO NISSEI) --- */
-        .product-detail-container { display: flex; gap: 40px; background: rgba(0,0,0,0.2); padding: 30px; border-radius: 20px; }
-        .detail-img { flex: 1; text-align: center; }
-        .detail-img img { max-width: 100%; border-radius: 15px; border: 1px solid var(--kernel-cyan); }
-        .detail-info { flex: 1; }
-        .detail-info h2 { font-size: 2rem; margin-top: 0; color: var(--kernel-cyan); }
+        .product-detail-container { display: flex; gap: 40px; background: rgba(0,0,0,0.2); padding: 30px; border-radius: 20px; flex-wrap: wrap; }
+        .detail-img { flex: 1; min-width: 300px; text-align: center; display: flex; align-items: center; justify-content: center; }
+        
+        /* Normalización de la imagen de detalle */
+        .detail-img img { 
+            max-width: 100%; 
+            max-height: 400px; 
+            object-fit: contain;
+            border-radius: 15px; 
+            border: 1px solid var(--kernel-cyan); 
+        }
+        .detail-info { flex: 1; min-width: 300px; }
+        
+        /* Modificado para heredar el mismo color de fondo que el Header */
+        .detail-info h2 { 
+            font-size: 2rem; 
+            margin-top: 0; 
+            background-color: rgba(0, 43, 54, 0.95); 
+            color: var(--white); 
+            padding: 12px 20px;
+            border-radius: 8px;
+            border-left: 4px solid var(--kernel-cyan);
+        }
+        
         .specs-list { list-style: none; padding: 0; margin: 20px 0; }
         .specs-list li { margin-bottom: 10px; padding-left: 20px; position: relative; }
         .specs-list li::before { content: "▹"; position: absolute; left: 0; color: var(--kernel-cyan); }
-        .price-tag { font-size: 2.5rem; font-weight: bold; margin: 20px 0; display: block; }
+        .price-tag { font-size: 2.5rem; font-weight: bold; margin: 20px 0; display: block; color: var(--white); }
         
         .action-bar { display: flex; gap: 15px; align-items: center; }
         .btn-main { background: var(--kernel-cyan); color: var(--kernel-blue-dark); padding: 15px 30px; border: none; border-radius: 5px; font-weight: bold; cursor: pointer; flex-grow: 1; }
@@ -96,17 +138,67 @@
         .carousel-section { margin-top: 50px; border-top: 1px solid rgba(0, 229, 255, 0.2); padding-top: 30px; }
         .carousel-track { display: flex; gap: 15px; overflow: hidden; position: relative; height: 120px; }
         .carousel-item { 
-            min-width: 100px; height: 100px; background: rgba(255,255,255,0.1); border-radius: 10px; 
-            padding: 5px; text-align: center; transition: 0.5s ease-in-out;
+            min-width: 115px; height: 100px; background: rgba(255,255,255,0.1); border-radius: 10px; 
+            padding: 5px; text-align: center; transition: 0.5s ease-in-out; cursor: pointer;
+            box-sizing: border-box;
         }
-        .carousel-item img { height: 70%; object-fit: contain; }
-        .carousel-item span { display: block; font-size: 0.7rem; margin-top: 5px; }
+        .carousel-item img { height: 65%; width: 100%; object-fit: contain; }
+        .carousel-item span { display: block; font-size: 0.7rem; margin-top: 5px; color: var(--kernel-cyan); font-weight: bold; }
 
-        /* --- CARRITO (STAYS THE SAME) --- */
+        /* --- CARRITO --- */
         .cart-panel { position: fixed; right: -400px; top: 0; width: 340px; height: 100%; background: #001f26; z-index: 2000; transition: 0.4s; padding: 25px; border-left: 2px solid var(--kernel-cyan); box-sizing: border-box; }
         .cart-panel.active { right: 0; }
         .overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); display: none; z-index: 1500; }
         .overlay.active { display: block; }
+
+        /* --- PIE DE PÁGINA (ESTILO NISSEI) --- */
+        footer {
+            background-color: rgba(0, 20, 26, 0.95);
+            border-top: 2px solid var(--kernel-cyan);
+            padding: 40px 5% 20px 5%;
+            font-size: 0.9rem;
+            color: #b0c4de;
+        }
+        .footer-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+        .footer-column h3 {
+            color: var(--kernel-cyan);
+            font-size: 1.1rem;
+            margin-top: 0;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .footer-column p {
+            margin: 8px 0;
+            line-height: 1.5;
+        }
+        .footer-column a {
+            color: #fff;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+        .footer-column a:hover {
+            color: var(--kernel-cyan);
+        }
+        .whatsapp-link {
+            display: inline-block;
+            color: #00ff88 !important;
+            font-weight: bold;
+            font-size: 1.1rem;
+            margin-top: 5px;
+        }
+        .footer-bottom {
+            border-top: 1px solid rgba(0, 229, 255, 0.1);
+            padding-top: 20px;
+            text-align: center;
+            font-size: 0.8rem;
+            color: #7f8c8d;
+        }
     </style>
 </head>
 <body>
@@ -124,7 +216,6 @@
 </header>
 
 <main>
-    <!-- VISTA CATALOGO -->
     <section id="catalog-view" class="view-section active">
         <div class="search-wrapper">
             <input type="text" id="product-search" placeholder="Buscar en Kernel..." onkeyup="filterProducts()">
@@ -132,12 +223,10 @@
         <div class="catalog" id="catalog-grid"></div>
     </section>
 
-    <!-- VISTA ESPECIFICACIONES -->
     <section id="detail-view" class="view-section">
-        <button onclick="showCatalog()" style="background:none; border:none; color:var(--kernel-cyan); cursor:pointer; margin-bottom:20px;">← Volver al catálogo</button>
+        <button onclick="showCatalog()" style="background:none; border:none; color:var(--kernel-cyan); cursor:pointer; margin-bottom:20px; font-size: 1rem;">← Volver al catálogo</button>
         <div id="product-detail-content"></div>
         
-        <!-- CARRUSEL ROTATIVO ABAJO -->
         <div class="carousel-section">
             <h4 style="color: var(--kernel-cyan); margin-bottom: 15px;">PRODUCTOS DESTACADOS</h4>
             <div class="carousel-track" id="carousel-track"></div>
@@ -145,31 +234,64 @@
     </section>
 </main>
 
-<!-- CARRITO LATERAL -->
 <aside class="cart-panel" id="cart-panel">
     <h3 style="text-align: center; border-bottom: 1px solid var(--kernel-cyan); padding-bottom: 10px;">TU PEDIDO</h3>
     <div id="cart-list" style="margin: 20px 0; max-height: 70vh; overflow-y: auto;"></div>
     <div style="border-top: 1px solid var(--kernel-cyan); padding-top: 15px;">
         <div style="display: flex; justify-content: space-between; font-size: 1.2rem; margin-bottom: 15px;">
             <span>TOTAL:</span>
-            <span id="total" style="color: var(--kernel-cyan); font-weight: bold;">$0</span>
+            <span id="total" style="color: var(--kernel-cyan); font-weight: bold;">0 Gs.</span>
         </div>
         <button onclick="processPayment()" style="background: #00ff88; color: #003b46; width: 100%; padding: 15px; border: none; border-radius: 5px; font-weight: bold; cursor: pointer;">COMPRAR AHORA</button>
     </div>
 </aside>
 
+<footer>
+    <div class="footer-container">
+        <div class="footer-column">
+            <h3>¿Dónde estamos?</h3>
+            <p><strong>Kernel Central:</strong><br>Lambaré, Cacique Lambaré 5525 y Heroes del 70</p>
+        </div>
+        <div class="footer-column">
+            <h3>Atención al Cliente</h3>
+            <p>Horario de atención:<br>Lunes a Viernes de 8:00 a 18:00</p>
+            <p>Escríbenos al WhatsApp:</p>
+            <a href="https://wa.me/595984276867" target="_blank" class="whatsapp-link">📲 +595 984 276 867</a>
+        </div>
+        <div class="footer-column">
+            <h3>La Empresa</h3>
+            <p><a href="#" onclick="alert('Sección Informativa'); return false;">Términos y condiciones</a></p>
+            <p><a href="#" onclick="alert('Sección Informativa'); return false;">Políticas de Privacidad</a></p>
+            <p><a href="#" onclick="alert('Sección Informativa'); return false;">Preguntas frecuentes</a></p>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <p>&copy; 2026 Kernel - Todos los derechos reservados. Las especificaciones técnicas y precios están sujetos a cambios sin previo aviso.</p>
+    </div>
+</footer>
+
 <script>
-    const products = [
-        { id: 1, name: "Funda Notebook - Blue", price: 25.00, stock: 15, img: "https://via.placeholder.com/400/a0c4ff/003b46?text=Funda+Blue", specs: ["Material: Neopreno reforzado", "Cierre: Doble track", "Resistente al agua", "Para notebooks de 14-15.6 pulgadas"] },
-        { id: 2, name: "Funda Notebook - Moss", price: 25.00, stock: 8, img: "https://via.placeholder.com/400/8d99ae/003b46?text=Funda+Moss", specs: ["Color: Verde Musgo Táctico", "Interior: Felpa anti-rayones", "Diseño Slim para mochilas", "Costuras de alta densidad"] },
-        { id: 3, name: "Funda Notebook - Black", price: 28.00, stock: 25, img: "https://via.placeholder.com/400/2b2d42/ffffff?text=Funda+Black", specs: ["Acabado: Mate Profesional", "Bolsillo extra para cargador", "Protección contra caídas 360", "Garantía Kernel: 1 año"] },
-        { id: 4, name: "Teclado Mecánico K1", price: 85.00, stock: 5, img: "https://via.placeholder.com/400/00e5ff/003b46?text=Teclado+K1", specs: ["Switch: Red (Silencioso)", "RGB: 16.8 millones de colores", "Conexión: USB-C Removible", "Cuerpo: Aluminio grado espacial"] },
-        { id: 5, name: "Mouse Pro Wireless", price: 45.00, stock: 12, img: "https://via.placeholder.com/400/00e5ff/003b46?text=Mouse+Pro", specs: ["DPI: Hasta 16,000", "Batería: 80 horas de uso", "Peso: 63g Ultra ligero", "6 Botones programables"] }
+   const products = [
+        { id: 1, name: "Funda Notebook - Blue", price: 150000, stock: 15, img: "imagenes/fundaceleste.png", specs: ["Material: Neopreno reforzado", "Cierre: Doble track", "Resistente al agua", "Para notebooks de 14-15.6 pulgadas"] },
+        { id: 2, name: "Funda Notebook - Moss", price: 150000, stock: 8, img: "imagenes/fundaverde.png", specs: ["Color: Verde Musgo Táctico", "Interior: Felpa anti-rayones", "Diseño Slim para mochilas", "Costuras de alta densidad", "Para notebooks de 14-15.6 pulgadas"] },
+        { id: 3, name: "Funda Notebook - Black", price: 150000, stock: 25, img: "imagenes/fundanegro.png", specs: ["Acabado: Mate Profesional", "Bolsillo extra para cargador", "Protección contra caídas 360", "Para notebooks de 14-15.6 pulgadas"] },
+        { id: 4, name: "Teclado Mecánico K1", price: 450000, stock: 5, img: "imagenes/tecladito.png", specs: ["Switch: Red (Silencioso)", "RGB: 16.8 millones de colores", "Conexión: USB-C Removible", "Cuerpo: Aluminio grado espacial"] },
+        { id: 5, name: "Mouse Pro Wireless V1", price: 250000, stock: 12, img: "imagenes/mouseee.png", specs: ["DPI: Hasta 16,000", "Batería: 80 horas de uso", "Peso: 63g Ultra ligero", "6 Botones programables"] },
+        { id: 6, name: "Notebook Acer Nitro", price: 8500000, stock: 2, img: "imagenes/nbacer.png", specs: ["Procesador de alto rendimiento", "Pantalla ideal para gaming y diseño", "Sistema de refrigeración avanzada", "Teclado retroiluminado"] },
+        { id: 7, name: "Notebook HP Victus", price: 7250000, stock: 3, img: "imagenes/nbvictus.png", specs: ["Gráficos de última generación", "Pantalla de alta tasa de refresco", "Diseño elegante y sobrio", "Excelente rendimiento térmico"] },
+        { id: 8, name: "Nintendo Switch 2 - 32 GB", price: 3870000, stock: 3, img: "imagenes/nintendo.png", specs: ["Consola híbrida (Portátil/TV)", "Controles Joy-Con incluidos", "Diversión multijugador inmediata", "Catálogo exclusivo de juegos"] },
+        { id: 9, name: "Nintendo Switch 2 - 256 GB", price: 4500000, stock: 2, img: "imagenes/nintendo2.png", specs: ["Pantalla OLED de 7 pulgadas", "Colores más vivos y alto contraste", "Soporte ajustable ancho"] },
+        { id: 10, name: "Auriculares QCY Earbuds", price: 180000, stock: 3, img: "imagenes/qcy.png", specs: ["Conexión Bluetooth inalámbrica", "Baja latencia para gaming", "Estuche de carga compacta", "Micrófono integrado para llamadas"] },
+        { id: 11, name: "Silla Gamer Black Edition", price: 2180000, stock: 3, img: "imagenes/sillanegro.png", specs: ["Ergonomía superior para largas jornadas", "Almohadillas lumbar y cervical", "Reclinable y ajustable en altura", "Base reforzada de alta durabilidad"] },
+        { id: 12, name: "Silla Gamer Orange Spark", price: 2250000, stock: 1, img: "imagenes/sillanaranja.png", specs: ["Detalles en naranja deportivo", "Materiales transpirables", "Apoyabrazos configurables", "Estilo audaz para tu setup"] }
     ];
 
     let cart = {};
 
-    // --- NAVEGACIÓN ---
+    function formatPrice(price) {
+        return new Intl.NumberFormat('es-PY').format(Math.round(price)) + " Gs.";
+    }
+
     function showCatalog() {
         document.getElementById('detail-view').classList.remove('active');
         document.getElementById('catalog-view').classList.add('active');
@@ -188,7 +310,7 @@
                     <ul class="specs-list">
                         ${product.specs.map(s => `<li>${s}</li>`).join('')}
                     </ul>
-                    <span class="price-tag">$${product.price.toFixed(2)}</span>
+                    <span class="price-tag">${formatPrice(product.price)}</span>
                     <div class="action-bar">
                         <button class="btn-main" onclick="addToCart(${product.id})">AGREGAR AL CARRITO</button>
                     </div>
@@ -201,31 +323,32 @@
         window.scrollTo(0,0);
     }
 
-    // --- RENDER ---
     function renderCatalog(items = products) {
         const grid = document.getElementById('catalog-grid');
         grid.innerHTML = items.map(p => `
             <div class="product-card" onclick="showDetail(${p.id})">
-                <img src="${p.img}">
+                <div class="img-container">
+                    <img src="${p.img}">
+                </div>
                 <h3>${p.name}</h3>
-                <p style="color:var(--kernel-cyan); font-weight:bold;">$${p.price.toFixed(2)}</p>
-                <small>Ver especificaciones →</small>
+                <p style="color:var(--kernel-cyan); font-weight:bold;">${formatPrice(p.price)}</p>
+                <small style="color: #aaa;">Ver especificaciones →</small>
             </div>
         `).join('');
     }
 
-    // --- CARRUSEL LÓGICA ---
     function initCarousel() {
         const track = document.getElementById('carousel-track');
         track.innerHTML = products.map(p => `
             <div class="carousel-item" onclick="showDetail(${p.id})">
                 <img src="${p.img}">
-                <span>$${p.price}</span>
+                <span>${formatPrice(p.price)}</span>
             </div>
         `).join('');
 
         setInterval(() => {
             const first = track.firstElementChild;
+            if(!first) return;
             track.style.transition = '0.5s';
             track.style.transform = 'translateX(-115px)';
             setTimeout(() => {
@@ -236,7 +359,6 @@
         }, 3000);
     }
 
-    // --- CARRITO LÓGICA (MODIFICADA PARA STOCK) ---
     function addToCart(id) {
         const product = products.find(p => p.id === id);
         if (cart[id]) {
@@ -271,7 +393,7 @@
                 <div style="border-bottom:1px solid #003b46; padding:10px 0;">
                     <div style="display:flex; justify-content:space-between;">
                         <span>${item.name}</span>
-                        <span>$${(item.price * item.qty).toFixed(2)}</span>
+                        <span>${formatPrice(item.price * item.qty)}</span>
                     </div>
                     <div style="margin-top:5px;">
                         <button onclick="changeQty(${id},-1)" style="cursor:pointer">-</button>
@@ -282,7 +404,7 @@
         }
         list.innerHTML = html || '<p style="text-align:center;">Carrito vacío</p>';
         count.innerText = items;
-        total.innerText = `$${sum.toFixed(2)}`;
+        total.innerText = formatPrice(sum);
     }
 
     function toggleCart() {
