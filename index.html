@@ -242,7 +242,9 @@
             <span>TOTAL:</span>
             <span id="total" style="color: var(--kernel-cyan); font-weight: bold;">0 Gs.</span>
         </div>
-        <button onclick="processPayment()" style="background: #00ff88; color: #003b46; width: 100%; padding: 15px; border: none; border-radius: 5px; font-weight: bold; cursor: pointer;">COMPRAR AHORA</button>
+        <button onclick="processPayment()" style="background: #00ff88; color: #003b46; width: 100%; padding: 15px; border: none; border-radius: 5px; font-weight: bold; cursor: pointer;">
+             REALIZAR PEDIDO AL WHATSAPP
+	</button>
     </div>
 </aside>
 
@@ -271,20 +273,25 @@
 </footer>
 
 <script>
-   const products = [
+   let products = [
         { id: 1, name: "Funda Notebook - Blue", price: 150000, stock: 15, img: "imagenes/fundaceleste.png", specs: ["Material: Neopreno reforzado", "Cierre: Doble track", "Resistente al agua", "Para notebooks de 14-15.6 pulgadas"] },
         { id: 2, name: "Funda Notebook - Moss", price: 150000, stock: 8, img: "imagenes/fundaverde.png", specs: ["Color: Verde Musgo Táctico", "Interior: Felpa anti-rayones", "Diseño Slim para mochilas", "Costuras de alta densidad", "Para notebooks de 14-15.6 pulgadas"] },
         { id: 3, name: "Funda Notebook - Black", price: 150000, stock: 25, img: "imagenes/fundanegro.png", specs: ["Acabado: Mate Profesional", "Bolsillo extra para cargador", "Protección contra caídas 360", "Para notebooks de 14-15.6 pulgadas"] },
         { id: 4, name: "Teclado Mecánico K1", price: 450000, stock: 5, img: "imagenes/tecladito.png", specs: ["Switch: Red (Silencioso)", "RGB: 16.8 millones de colores", "Conexión: USB-C Removible", "Cuerpo: Aluminio grado espacial"] },
         { id: 5, name: "Mouse Pro Wireless V1", price: 250000, stock: 12, img: "imagenes/mouseee.png", specs: ["DPI: Hasta 16,000", "Batería: 80 horas de uso", "Peso: 63g Ultra ligero", "6 Botones programables"] },
         { id: 6, name: "Notebook Acer Nitro", price: 8500000, stock: 2, img: "imagenes/nbacer.png", specs: ["Procesador de alto rendimiento", "Pantalla ideal para gaming y diseño", "Sistema de refrigeración avanzada", "Teclado retroiluminado"] },
-        { id: 7, name: "Notebook HP Victus", price: 7250000, stock: 3, img: "imagenes/nbvictus.png", specs: ["Gráficos de última generación", "Pantalla de alta tasa de refresco", "Diseño elegante y sobrio", "Excelente rendimiento térmico"] },
+        { id: 7, name: "Notebook HP Victus", price: 7250000, stock: 3, img: "imagenes/nbvictus.png", specs: ["Gráficos de última generación", "Pantalla de alta tasa de refresco", "Diseño elegant y sobrio", "Excelente rendimiento térmico"] },
         { id: 8, name: "Nintendo Switch 2 - 32 GB", price: 3870000, stock: 3, img: "imagenes/nintendo.png", specs: ["Consola híbrida (Portátil/TV)", "Controles Joy-Con incluidos", "Diversión multijugador inmediata", "Catálogo exclusivo de juegos"] },
         { id: 9, name: "Nintendo Switch 2 - 256 GB", price: 4500000, stock: 2, img: "imagenes/nintendo2.png", specs: ["Pantalla OLED de 7 pulgadas", "Colores más vivos y alto contraste", "Soporte ajustable ancho"] },
         { id: 10, name: "Auriculares QCY Earbuds", price: 180000, stock: 3, img: "imagenes/qcy.png", specs: ["Conexión Bluetooth inalámbrica", "Baja latencia para gaming", "Estuche de carga compacta", "Micrófono integrado para llamadas"] },
-        { id: 11, name: "Silla Gamer Black Edition", price: 2180000, stock: 3, img: "imagenes/sillanegro.png", specs: ["Ergonomía superior para largas jornadas", "Almohadillas lumbar y cervical", "Reclinable y ajustable en altura", "Base reforzada de alta durabilidad"] },
-        { id: 12, name: "Silla Gamer Orange Spark", price: 2250000, stock: 1, img: "imagenes/sillanaranja.png", specs: ["Detalles en naranja deportivo", "Materiales transpirables", "Apoyabrazos configurables", "Estilo audaz para tu setup"] }
+        { id: 11, name: "Silla Gamer Black Edition", price: 2180000, stock: 8, img: "imagenes/sillanegro.png", specs: ["Ergonomía superior para largas jornadas", "Almohadillas lumbar y cervical", "Reclinable y ajustable en altura", "Base reforzada de alta durabilidad"] },
+        { id: 12, name: "Silla Gamer Orange Spark", price: 2250000, stock: 10, img: "imagenes/sillanaranja.png", specs: ["Detalles en naranja deportivo", "Materiales transpirables", "Apoyabrazos configurables", "Estilo audaz para tu setup"] }
     ];
+    const savedProducts = localStorage.getItem("kernel_products");
+
+if(savedProducts){
+    products = JSON.parse(savedProducts);
+}
 
     let cart = {};
 
@@ -312,7 +319,10 @@
                     </ul>
                     <span class="price-tag">${formatPrice(product.price)}</span>
                     <div class="action-bar">
-                        <button class="btn-main" onclick="addToCart(${product.id})">AGREGAR AL CARRITO</button>
+                        ${product.stock > 0
+? `<button class="btn-main" onclick="addToCart(${product.id})">AGREGAR AL CARRITO</button>`
+: `<button class="btn-main" style="background:#555; cursor:not-allowed;" disabled>PRODUCTO AGOTADO</button>`
+}
                     </div>
                 </div>
             </div>
@@ -324,18 +334,39 @@
     }
 
     function renderCatalog(items = products) {
-        const grid = document.getElementById('catalog-grid');
-        grid.innerHTML = items.map(p => `
-            <div class="product-card" onclick="showDetail(${p.id})">
-                <div class="img-container">
-                    <img src="${p.img}">
-                </div>
-                <h3>${p.name}</h3>
-                <p style="color:var(--kernel-cyan); font-weight:bold;">${formatPrice(p.price)}</p>
-                <small style="color: #aaa;">Ver especificaciones →</small>
+
+    const grid = document.getElementById('catalog-grid');
+
+    grid.innerHTML = items.map(p => `
+
+        <div class="product-card" onclick="showDetail(${p.id})">
+
+            <div class="img-container">
+                <img src="${p.img}">
             </div>
-        `).join('');
-    }
+
+            <h3>${p.name}</h3>
+
+            <p style="color:var(--kernel-cyan); font-weight:bold;">
+                ${formatPrice(p.price)}
+            </p>
+
+            <p style="
+                color:${p.stock > 0 ? '#00ff88' : '#ff4d4d'};
+                font-weight:bold;
+                margin:5px 0;
+            ">
+                ${p.stock > 0 ? `Stock: ${p.stock}` : 'AGOTADO'}
+            </p>
+
+            <small style="color: #aaa;">
+                Ver especificaciones →
+            </small>
+
+        </div>
+
+    `).join('');
+}
 
     function initCarousel() {
         const track = document.getElementById('carousel-track');
@@ -380,32 +411,72 @@
     }
 
     function updateUI() {
-        const list = document.getElementById('cart-list');
-        const count = document.getElementById('count');
-        const total = document.getElementById('total');
-        let html = '', sum = 0, items = 0;
 
-        for (let id in cart) {
-            let item = cart[id];
-            sum += item.price * item.qty;
-            items += item.qty;
-            html += `
-                <div style="border-bottom:1px solid #003b46; padding:10px 0;">
-                    <div style="display:flex; justify-content:space-between;">
-                        <span>${item.name}</span>
-                        <span>${formatPrice(item.price * item.qty)}</span>
-                    </div>
-                    <div style="margin-top:5px;">
-                        <button onclick="changeQty(${id},-1)" style="cursor:pointer">-</button>
-                        <span style="margin:0 10px">${item.qty}</span>
-                        <button onclick="changeQty(${id},1)" style="cursor:pointer">+</button>
-                    </div>
-                </div>`;
-        }
-        list.innerHTML = html || '<p style="text-align:center;">Carrito vacío</p>';
-        count.innerText = items;
-        total.innerText = formatPrice(sum);
+    const list = document.getElementById('cart-list');
+    const count = document.getElementById('count');
+    const total = document.getElementById('total');
+
+    let html = '';
+    let subtotal = 0;
+    let items = 0;
+
+    for (let id in cart) {
+
+        let item = cart[id];
+
+        subtotal += item.price * item.qty;
+        items += item.qty;
+
+        html += `
+            <div style="border-bottom:1px solid #003b46; padding:10px 0;">
+
+                <div style="display:flex; justify-content:space-between;">
+                    <span>${item.name}</span>
+                    <span>${formatPrice(item.price * item.qty)}</span>
+                </div>
+
+                <div style="margin-top:5px;">
+                    <button onclick="changeQty(${id},-1)" style="cursor:pointer">-</button>
+
+                    <span style="margin:0 10px">${item.qty}</span>
+
+                    <button onclick="changeQty(${id},1)" style="cursor:pointer">+</button>
+                </div>
+
+            </div>
+        `;
     }
+
+    const descuento = subtotal * 0.05;
+    const totalFinal = subtotal - descuento;
+
+    if (subtotal > 0) {
+
+        html += `
+
+            <div style="margin-top:15px; border-top:1px solid var(--kernel-cyan); padding-top:10px;">
+
+                <div style="display:flex; justify-content:space-between; margin-bottom:5px;">
+                    <span>Subtotal:</span>
+                    <span>${formatPrice(subtotal)}</span>
+                </div>
+
+                <div style="display:flex; justify-content:space-between; color:#00ff88; font-weight:bold;">
+                    <span>Descuento Web (5%):</span>
+                    <span>- ${formatPrice(descuento)}</span>
+                </div>
+
+            </div>
+
+        `;
+    }
+
+    list.innerHTML = html || '<p style="text-align:center;">Carrito vacío</p>';
+
+    count.innerText = items;
+
+    total.innerText = formatPrice(totalFinal);
+}
 
     function toggleCart() {
         document.getElementById('cart-panel').classList.toggle('active');
@@ -418,10 +489,50 @@
         renderCatalog(filtered);
     }
 
-    function processPayment() {
-        if(Object.keys(cart).length === 0) return;
-        alert("💻 Redirigiendo a Kernel Checkout...");
+   function processPayment() {
+
+    if (Object.keys(cart).length === 0) {
+        alert("Tu carrito está vacío");
+        return;
     }
+
+    let mensaje = "Hola, Kernel! quiero comprar estos artículos:%0A%0A";
+    let subtotal = 0;
+
+    for (let id in cart) {
+        let item = cart[id];
+        let totalProducto = item.price * item.qty;
+        subtotal += totalProducto;
+
+        mensaje += `• ${item.name} x${item.qty} - ${formatPrice(totalProducto)}%0A`;
+    }
+
+    const descuento = subtotal * 0.05;
+    const totalFinal = subtotal - descuento;
+
+    mensaje += `%0A🧾 Subtotal: ${formatPrice(subtotal)}`;
+    mensaje += `%0A🎁 Descuento Web (5%): - ${formatPrice(descuento)}`;
+    mensaje += `%0A💰 Total Final: ${formatPrice(totalFinal)}`;
+
+    const numero = "595984276867";
+
+    // VACIAR CARRITO
+    cart = {};
+
+    updateUI();
+    renderCatalog();
+
+    // ACTUALIZAR DETALLE SI ESTÁ ABIERTO
+    const detailView = document.getElementById('detail-view');
+    if(detailView.classList.contains('active')){
+        showCatalog();
+    }
+
+    window.open(
+        `https://wa.me/${numero}?text=${mensaje}`,
+        '_blank'
+    );
+}
 
     renderCatalog();
     initCarousel();
