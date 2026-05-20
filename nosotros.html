@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nosotros - Kernel</title>
+    <link rel="icon" type="image/jpeg" href="imagenes/Image.jpg">
+    <style>
+        :root { --kernel-cyan: #00e5ff; --kernel-blue-dark: #003b46; --kernel-gradient: radial-gradient(circle, #005f6b 0%, #002b36 100%); --white: #ffffff; }
+        body { font-family: 'Segoe UI', Roboto, sans-serif; margin: 0; background: var(--kernel-gradient) fixed; color: var(--white); background-image: url('https://www.transparenttextures.com/patterns/circuit-board.png'); min-height: 100vh; display: flex; flex-direction: column; }
+        header { background-color: rgba(0, 43, 54, 0.95); padding: 1rem 5%; display: flex; justify-content: space-between; align-items: center; border-bottom: 3px solid var(--kernel-cyan); }
+        .logo-area { display: flex; align-items: center; gap: 15px; cursor: pointer; text-decoration: none; }
+        .key-logo { width: 45px; height: 45px; background: #1e293b; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 1.6rem; color: var(--kernel-cyan); box-shadow: 0 4px 0 #008ba3, 0 6px 10px rgba(0,0,0,0.5); }
+        .brand-name { font-size: 1.8rem; font-weight: 800; letter-spacing: 3px; text-transform: uppercase; margin: 0; background: linear-gradient(to bottom, #fff 50%, #bbb 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        nav { display: flex; gap: 20px; }
+        nav a { color: var(--white); text-decoration: none; font-weight: 600; text-transform: uppercase; font-size: 0.9rem; letter-spacing: 1px; padding: 8px 12px; border-radius: 4px; }
+        nav a:hover, nav a.nav-active { color: var(--kernel-cyan); background: rgba(0, 229, 255, 0.1); }
+        main { flex: 1; padding: 40px 5%; }
+        
+        /* Grilla para ordenar Misión y Visión en paralelo */
+        .grid-features { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px; margin-top: 20px; }
+        
+        /* Estilos de las tarjetas con fondo blanco y texto negro */
+        .about-container { 
+            background: #ffffff; 
+            padding: 40px; 
+            border-radius: 15px; 
+            border: 1px solid var(--kernel-cyan); 
+        }
+        .about-container h2 { 
+            color: var(--kernel-blue-dark); 
+            font-size: 2rem; 
+            margin-top: 0;
+            border-bottom: 2px solid var(--kernel-cyan);
+            padding-bottom: 10px;
+        }
+        .about-container p { 
+            line-height: 1.6; 
+            color: #000000; 
+            font-size: 1.1rem;
+            font-weight: 500;
+        }
+        
+        footer { background-color: rgba(0, 20, 26, 0.95); border-top: 2px solid var(--kernel-cyan); padding: 40px 5% 20px 5%; font-size: 0.9rem; color: #b0c4de; text-align: center;}
+    </style>
+</head>
+<body>
+
+<header>
+    <a href="index.html" class="logo-area">
+        <div class="key-logo">K</div>
+        <h1 class="brand-name">Kernel</h1>
+    </a>
+    <nav>
+        <a href="index.html">Inicio</a>
+        <a href="nosotros.html" class="nav-active">Nosotros</a>
+        <a href="productos.html">Productos</a>
+        <a href="tienda.html">Tienda</a>
+        <a href="contacto.html">Contacto</a>
+    </nav>
+</header>
+
+<main>
+    <!-- Contenedor en grilla para que queden alineadas de forma moderna -->
+    <div class="grid-features">
+        
+        <!-- Tarjeta de Misión -->
+        <div class="about-container">
+            <h2>Misión</h2>
+            <p>Proveer a entusiastas del hardware, administradores de sistemas y profesionales tecnológicos de Paraguay los periféricos y accesorios de TI de la más alta calidad, optimizando su rendimiento diario y garantizando que sus estaciones de trabajo nunca sufran cuellos de botella.</p>
+        </div>
+
+        <!-- Tarjeta de Visión -->
+        <div class="about-container">
+            <h2>Visión</h2>
+            <p>Consolidarnos como la marca y comunidad de referencia en el ecosistema informático local, destacándonos por la selección minuciosa de nuestro inventario, el entendimiento técnico de la infraestructura tecnológica y una atención directa que hable el mismo idioma que nuestros clientes.</p>
+        </div>
+
+    </div>
+</main>
+
+<footer>
+    <p>&copy; 2026 Kernel - Todos los derechos reservados.</p>
+</footer>
+
+</body>
+</html>
